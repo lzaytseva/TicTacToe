@@ -1,18 +1,23 @@
 import java.util.Random;
 
 public class Computer extends Player {
+
+    Minimax minimax;
     @Override
     void makeMove(Board board) {
         Random rand = new Random();
-        int x, y;
+        int[] move = new int[2];
 
         System.out.println("Теперь ход компьютера. Подождите, он немного подумает..");
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+        move = minimax.getBestMove(board);
+        if (move[0] == -1 || move[1] == -1) {
+            System.out.println("Компьютер сломався (");
+        } else {
+            board.changeCellState(move[0], move[1], sign);
         }
+
+        /*
 
         do {
             x = rand.nextInt(board.getBoardSize());
@@ -25,5 +30,10 @@ public class Computer extends Player {
             winner = true;
             addScore();
         }
+        */
+    }
+
+    void initializeMiniMax() {
+        minimax = new Minimax(sign);
     }
 }

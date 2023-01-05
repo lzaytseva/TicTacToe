@@ -31,6 +31,11 @@ public class TicTacToe {
         createBoard();
         printBoard();
         setSign();
+        setUpMiniMax();
+    }
+
+    private void setUpMiniMax() {
+        ((Computer)computer).initializeMiniMax();
     }
 
     private void printGreeting() {
@@ -50,16 +55,17 @@ public class TicTacToe {
 
         System.out.println("Введите размер поля >= 3");
         while (true) {
-            if (scanner.hasNextInt()) {
-                boardSize = Integer.parseInt(scanner.nextLine());
+            String input = scanner.nextLine();
+            if (input.matches("\\d+")) {
+                boardSize = Integer.parseInt(input);
                 if (boardSize < 3) {
                     System.out.println("Слишком маленькое поле, будет не интересно :(");
                 } else {
                     if (boardSize > 5) {
                         System.out.println("Победит тот, кто быстрее составит ряд из 5");
                     }
-                    break;
                 }
+                break;
             } else {
                 System.out.println("Некорректный ввод. Попробуйте снова.");
             }
