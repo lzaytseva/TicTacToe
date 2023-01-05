@@ -55,35 +55,8 @@ public class Board {
         return isCompletedHorizontal(x, y, sign) || isCompletedVertical(x, y, sign) || isCompletedDiagonal(x, y, sign);
     }
 
-    private boolean isCompletedHorizontal(int x, int y, char sign) {
-        int seqLength = 1;
-        int dx = x - 1;
-
-        while(dx >= 0 && seqLength < winningSequenceLength) {
-            if (board[dx][y] == sign) {
-                seqLength++;
-                dx--;
-            } else {
-                break;
-            }
-        }
-
-        dx = x + 1;
-
-        while(dx < board.length && seqLength < winningSequenceLength) {
-            if (board[dx][y] == sign) {
-                seqLength++;
-                dx++;
-            } else {
-                break;
-            }
-        }
-
-        return seqLength == winningSequenceLength;
-    }
-
-    private boolean isCompletedVertical(int x, int y, char sign) {
-        int seqLength = 1;
+    boolean isCompletedHorizontal(int x, int y, char sign) {
+        int seqLength = board[x][y] == sign ? 1 : 0;
         int dy = y - 1;
 
         while(dy >= 0 && seqLength < winningSequenceLength) {
@@ -108,8 +81,40 @@ public class Board {
 
         return seqLength == winningSequenceLength;
     }
-    private boolean isCompletedDiagonal(int x, int y, char sign) {
-        int seqLength = 1;
+
+    boolean isCompletedVertical(int x, int y, char sign) {
+        int seqLength = board[x][y] == sign ? 1 : 0;
+        int dx = x - 1;
+
+        while(dx >= 0 && seqLength < winningSequenceLength) {
+            if (board[dx][y] == sign) {
+                seqLength++;
+                dx--;
+            } else {
+                break;
+            }
+        }
+
+        dx = x + 1;
+
+        while(dx < board.length && seqLength < winningSequenceLength) {
+            if (board[dx][y] == sign) {
+                seqLength++;
+                dx++;
+            } else {
+                break;
+            }
+        }
+
+        return seqLength == winningSequenceLength;
+    }
+    boolean isCompletedDiagonal(int x, int y, char sign) {
+        //проверяем побочную диагональ
+        return isCompletedMainDiagonal(x, y, sign) || isCompletedAntidiagonal(x, y, sign);
+    }
+
+    boolean isCompletedMainDiagonal(int x, int y, char sign) {
+        int seqLength = board[x][y] == sign ? 1 : 0;
         int dy = y - 1;
         int dx = x - 1;
 
@@ -135,9 +140,38 @@ public class Board {
                 break;
             }
         }
-
         return seqLength == winningSequenceLength;
     }
 
+    boolean isCompletedAntidiagonal(int x, int y, char sign) {
+        int seqLength = board[x][y] == sign ? 1 : 0;
+        int dy = y + 1;
+        int dx = x - 1;
+
+        while((dx >= 0 && dy < board.length) && seqLength < winningSequenceLength) {
+            if (board[dx][dy] == sign) {
+                seqLength++;
+                dy++;
+                dx--;
+            } else {
+                break;
+            }
+        }
+
+        dy = y - 1;
+        dx = x + 1;
+
+        while((dx < board.length && dy >= 0) && seqLength < winningSequenceLength) {
+            if (board[dx][dy] == sign) {
+                seqLength++;
+                dy--;
+                dx++;
+            } else {
+                break;
+            }
+        }
+
+        return seqLength == winningSequenceLength;
+    }
 
 }
