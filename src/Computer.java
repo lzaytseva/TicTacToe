@@ -1,12 +1,9 @@
-import java.util.Random;
-
 public class Computer extends Player {
 
     Minimax minimax;
     @Override
     void makeMove(Board board) {
-        Random rand = new Random();
-        int[] move = new int[2];
+        int[] move;
 
         System.out.println("Теперь ход компьютера. Подождите, он немного подумает..");
 
@@ -17,20 +14,10 @@ public class Computer extends Player {
             board.changeCellState(move[0], move[1], sign);
         }
 
-        /*
-
-        do {
-            x = rand.nextInt(board.getBoardSize());
-            y = rand.nextInt(board.getBoardSize());
-        } while (!board.isAvailableCell(x, y));
-
-        board.changeCellState(x, y, sign);
-
-        if (board.isWinningMove(x, y, sign)) {
+        if (board.isWinningMove(move[0], move[1], sign)) {
             winner = true;
             addScore();
         }
-        */
     }
 
     void initializeMiniMax() {

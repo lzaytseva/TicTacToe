@@ -1,7 +1,5 @@
-import java.util.*;
-
 public class Minimax {
-    private static final int MAX_DEPTH = 5;
+    private static final int MAX_DEPTH = 9;
 
     private final char humanSign;
     private final char computerSign;
