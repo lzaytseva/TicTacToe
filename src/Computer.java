@@ -1,13 +1,13 @@
 public class Computer extends Player {
 
-    Minimax minimax;
+    MinimaxAlfaBeta minimaxAlfaBeta;
     @Override
     void makeMove(Board board) {
         int[] move;
 
         System.out.println("Теперь ход компьютера. Подождите, он немного подумает..");
 
-        move = minimax.getBestMove(board);
+        move = minimaxAlfaBeta.getBestMove(board);
         if (move[0] == -1 || move[1] == -1) {
             System.out.println("Компьютер сломався (");
         } else {
@@ -21,6 +21,6 @@ public class Computer extends Player {
     }
 
     void initializeMiniMax() {
-        minimax = new Minimax(sign);
+        minimaxAlfaBeta = new MinimaxAlfaBeta(sign);
     }
 }

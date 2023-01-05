@@ -2,6 +2,9 @@ import java.util.Scanner;
 
 public class TicTacToe {
     private static final int FIRST_ROUND = 1;
+    final static int MAX_SEQUENCE = 5;
+    static final int MIN_BOARD_SIZE = 3;
+    static final int MAX_BOARD_SIZE = 7;
     private final Scanner scanner;
     private Board board;
     private final Player human;
@@ -53,22 +56,22 @@ public class TicTacToe {
     private int getBoardSizeFromPlayer() {
         int boardSize;
 
-        System.out.println("Введите размер поля >= 3");
+        System.out.println("Введите размер поля от 3 до 7");
         while (true) {
             String input = scanner.nextLine();
             if (input.matches("\\d+")) {
                 boardSize = Integer.parseInt(input);
-                if (boardSize < 3) {
+                if (boardSize < MIN_BOARD_SIZE) {
                     System.out.println("Слишком маленькое поле, будет не интересно :(");
-                } else {
-                    if (boardSize > 5) {
-                        System.out.println("Победит тот, кто быстрее составит ряд из 5");
-                    }
+                } else if (boardSize > MAX_BOARD_SIZE) {
+                    System.out.println("ИИ пока еще не очень умный, будет скучно, давайте выберем поле поменьше.");
+                } else if (boardSize > MAX_SEQUENCE) {
+                    System.out.println("Победит тот, кто быстрее составит ряд из 5.");
+                    break;
                 }
-                break;
             } else {
-                System.out.println("Некорректный ввод. Попробуйте снова.");
-            }
+            System.out.println("Некорректный ввод. Попробуйте снова.");
+           }
         }
 
         return boardSize;
@@ -81,7 +84,7 @@ public class TicTacToe {
     private void setSign() {
         String sign;
 
-        System.out.println("Выберете ваш символ. Введите \"X\" либо \"O\"");
+        System.out.println("Выберете ваш символ. Введите \"X\" либо \"O\".");
 
         while (true) {
             sign = scanner.nextLine();
@@ -119,14 +122,14 @@ public class TicTacToe {
                 System.out.println("Компьютер выиграл :(");
                 break;
             } else if (board.isFull()) {
-                System.out.println("Ничья");
+                System.out.println("Ничья.");
                 break;
             }
         }
     }
 
     private void printScore() {
-        System.out.printf("Человек - компьютер %d:%d\n", human.getScore(), computer.getScore());
+        System.out.printf("Человек - компьютер %d:%d.\n", human.getScore(), computer.getScore());
     }
 
     private void newRound() {

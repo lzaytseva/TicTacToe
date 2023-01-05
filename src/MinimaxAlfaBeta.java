@@ -1,15 +1,14 @@
-public class Minimax {
-    private static final int MAX_DEPTH = 9;
-
+public class MinimaxAlfaBeta {
+    private static final int MAX_DEPTH = 100;
     private final char humanSign;
     private final char computerSign;
 
-    public Minimax(char computerSign) {
+    public MinimaxAlfaBeta(char computerSign) {
         this.computerSign = computerSign;
         this.humanSign = computerSign == 'X' ? 'O' : 'X';
     }
 
-    private int miniMax(Board board, int depth, boolean isAiPlayer) {
+    private int miniMax(Board board, int depth, int alpha, int beta,  boolean isAiPlayer) {
         int score = getScore(board);
 
         if (Math.abs(score) == 10 || depth == 0 || board.isFull()) {
@@ -22,8 +21,12 @@ public class Minimax {
                 for (int col = 0; col < board.getBoardSize(); col++) {
                     if (board.isAvailableCell(row, col)) {
                         board.changeCellState(row, col, computerSign);
-                        bestScore = Math.max(bestScore, miniMax(board, depth - 1, false));
+                        bestScore = Math.max(bestScore, miniMax(board, depth - 1, alpha, beta,false));
                         board.changeCellState(row, col, Signs.SIGN_EMPTY);
+                        alpha = Math.max(alpha, bestScore);
+                        if (alpha >= beta) {
+                            return bestScore;
+                        }
                     }
                 }
             }
@@ -34,8 +37,12 @@ public class Minimax {
                 for (int col = 0; col < board.getBoardSize(); col++) {
                     if (board.isAvailableCell(row, col)) {
                         board.changeCellState(row, col, humanSign);
-                        lowestScore = Math.min(lowestScore, miniMax(board, depth - 1, true));
+                        lowestScore = Math.min(lowestScore, miniMax(board, depth - 1, alpha, beta, true));
                         board.changeCellState(row, col, Signs.SIGN_EMPTY);
+                        beta = Math.min(beta, lowestScore);
+                        if (beta <= alpha) {
+                            return lowestScore;
+                        }
                     }
                 }
             }
@@ -44,8 +51,6 @@ public class Minimax {
     }
 
     private int getScore(Board board) {
-        //нужно проверить каждую линию на выигрышность той или иной стороны
-        //проверяем горизонатали
         for (int row = 0; row < board.getBoardSize(); row++) {
             if (board.isCompletedHorizontal(row, 0, computerSign)) {
                 return 10;
@@ -81,7 +86,7 @@ public class Minimax {
             for (int col = 0; col < board.getBoardSize(); col++) {
                 if (board.isAvailableCell(row, col)) {
                     board.changeCellState(row, col, computerSign);
-                    int moveScore = miniMax(board, MAX_DEPTH, false);
+                    int moveScore = miniMax(board, MAX_DEPTH, Integer.MAX_VALUE, Integer.MAX_VALUE, false);
                     board.changeCellState(row, col, Signs.SIGN_EMPTY);
                     if (moveScore > bestScore) {
                         bestMove[0] = row;
@@ -91,7 +96,6 @@ public class Minimax {
                 }
             }
         }
-
         return bestMove;
     }
 }

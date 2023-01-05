@@ -1,8 +1,6 @@
 import java.util.Arrays;
 
 public class Board {
-
-    final static int MAX_SEQUENCE = 5;
     private final int winningSequenceLength;
     char[][] board;
 
@@ -11,7 +9,7 @@ public class Board {
         for (char[] row: board) {
             Arrays.fill(row, Signs.SIGN_EMPTY);
         }
-        winningSequenceLength = Math.min(size, MAX_SEQUENCE);
+        winningSequenceLength = Math.min(size, TicTacToe.MAX_SEQUENCE);
     }
 
     int getBoardSize() {

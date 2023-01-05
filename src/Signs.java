@@ -3,3 +3,6 @@ public interface Signs {
     char SIGN_O = 'O';
     char SIGN_EMPTY = '*';
 }
+
+//TODO:
+// переделать на enum
