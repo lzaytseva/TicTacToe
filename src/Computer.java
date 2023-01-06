@@ -1,13 +1,18 @@
 public class Computer extends Player {
-
     MinimaxAlfaBeta minimaxAlfaBeta;
+
+    @Override
+    String getClassName() {
+        return "Computer";
+    }
+
     @Override
     void makeMove(Board board) {
         int[] move;
 
-        System.out.println("Теперь ход компьютера. Подождите, он немного подумает..");
-
+        System.out.println("Ход компьютера");
         move = minimaxAlfaBeta.getBestMove(board);
+
         if (move[0] == -1 || move[1] == -1) {
             System.out.println("Компьютер сломався (");
         } else {
@@ -15,7 +20,7 @@ public class Computer extends Player {
         }
 
         if (board.isWinningMove(move[0], move[1], sign)) {
-            winner = true;
+            isWinner = true;
             addScore();
         }
     }

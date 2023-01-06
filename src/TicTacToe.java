@@ -2,19 +2,21 @@ import java.util.Scanner;
 
 public class TicTacToe {
     private static final int FIRST_ROUND = 1;
+    private static final int MIN_BOARD_SIZE = 3;
+    private static final int MAX_BOARD_SIZE = 15;
     final static int MAX_SEQUENCE = 5;
-    static final int MIN_BOARD_SIZE = 3;
-    static final int MAX_BOARD_SIZE = 7;
     private final Scanner scanner;
-    private Board board;
     private final Player human;
     private final Player computer;
+    private Board board;
     private int round;
+    private boolean gameOver;
 
     public TicTacToe() {
         this.scanner = new Scanner(System.in);
         this.human = new Human();
         this.computer = new Computer();
+        this.gameOver = false;
         this.round = FIRST_ROUND;
     }
 
@@ -37,10 +39,6 @@ public class TicTacToe {
         setUpMiniMax();
     }
 
-    private void setUpMiniMax() {
-        ((Computer)computer).initializeMiniMax();
-    }
-
     private void printGreeting() {
         if (round == FIRST_ROUND) {
             System.out.println("Привет! Это игра крестики-нолики");
@@ -56,22 +54,28 @@ public class TicTacToe {
     private int getBoardSizeFromPlayer() {
         int boardSize;
 
-        System.out.println("Введите размер поля от 3 до 7");
         while (true) {
+            System.out.printf("Введите размер поля от %d до %d\n", MIN_BOARD_SIZE, MAX_BOARD_SIZE);
             String input = scanner.nextLine();
+
             if (input.matches("\\d+")) {
                 boardSize = Integer.parseInt(input);
                 if (boardSize < MIN_BOARD_SIZE) {
                     System.out.println("Слишком маленькое поле, будет не интересно :(");
                 } else if (boardSize > MAX_BOARD_SIZE) {
-                    System.out.println("ИИ пока еще не очень умный, будет скучно, давайте выберем поле поменьше.");
-                } else if (boardSize > MAX_SEQUENCE) {
-                    System.out.println("Победит тот, кто быстрее составит ряд из 5.");
+                    System.out.println("Ну и куда вам так много?");
+                } else if (boardSize > MIN_BOARD_SIZE) {
+                    if (boardSize > MAX_SEQUENCE) {
+                        System.out.printf("Победит тот, кто быстрее составит ряд из %d.\n", MAX_SEQUENCE);
+                    }
+                    System.out.println("Warning! ИИ пока еще не очень умный и может вести себя не адекватно.");
+                    break;
+                } else {
                     break;
                 }
             } else {
-            System.out.println("Некорректный ввод. Попробуйте снова.");
-           }
+                System.out.println("Некорректный ввод. Попробуйте снова.");
+            }
         }
 
         return boardSize;
@@ -89,12 +93,12 @@ public class TicTacToe {
         while (true) {
             sign = scanner.nextLine();
             if (sign.equals("0") || sign.equalsIgnoreCase("o")) {
-                human.setSign(Signs.SIGN_O);
-                computer.setSign(Signs.SIGN_X);
+                human.setSign(Signs.O);
+                computer.setSign(Signs.X);
                 break;
             } else if (sign.equalsIgnoreCase("x")) {
-                 human.setSign(Signs.SIGN_X);
-                 computer.setSign(Signs.SIGN_O);
+                 human.setSign(Signs.X);
+                 computer.setSign(Signs.O);
                  break;
             } else {
                 System.out.println("Неизвестный символ. Попробуйте еще раз.");
@@ -102,29 +106,41 @@ public class TicTacToe {
         }
     }
 
+    private void setUpMiniMax() {
+        ((Computer)computer).initializeMiniMax();
+    }
+
     private void play() {
-        while (true) {
-            human.makeMove(board);
-            printBoard();
+        boolean humanTurn = human.getSign() == Signs.X;
 
-            if (human.isWinner()) {
+        System.out.println("Крестики ходят первыми :)");
+
+        while (!gameOver) {
+            if (humanTurn) {
+                move(human);
+            } else {
+                move(computer);
+            }
+            humanTurn = !humanTurn;
+        }
+    }
+
+    private void move(Player player) {
+        player.makeMove(board);
+        printBoard();
+        checkWin(player);
+    }
+
+    private void checkWin(Player player) {
+        if (player.isWinner()) {
+            if (player.getClassName().equals("Human")) {
                 System.out.println("Вы выиграли");
-                break;
-            } else if (board.isFull()) {
-                System.out.println("Ничья");
-                break;
-            }
-
-            computer.makeMove(board);
-            printBoard();
-
-            if (computer.isWinner()) {
+            } else {
                 System.out.println("Компьютер выиграл :(");
-                break;
-            } else if (board.isFull()) {
-                System.out.println("Ничья.");
-                break;
             }
+            gameOver = true;
+        } else if (board.isFull()) {
+            System.out.println("Ничья");
         }
     }
 
@@ -135,8 +151,8 @@ public class TicTacToe {
     private void newRound() {
         human.resetWinnerStatus();
         computer.resetWinnerStatus();
+        gameOver = false;
         round++;
     }
-
 }
 

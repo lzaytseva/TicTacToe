@@ -2,11 +2,17 @@ import java.util.Scanner;
 
 public class Human extends Player{
     private final Scanner scanner = new Scanner(System.in);
+
+    @Override
+    String getClassName() {
+        return "Human";
+    }
+
     @Override
     void makeMove(Board board) {
         int x, y;
 
-        System.out.printf("Ваш ход. Введите координаты ячейки через пробел от 0 до %d\n", board.getBoardSize() - 1);
+        System.out.printf("Ваш ход. Введите ряд и столбец через пробел (значения от 0 до %d)\n", board.getBoardSize() - 1);
 
         while (true) {
             String input = scanner.nextLine();
@@ -29,10 +35,9 @@ public class Human extends Player{
         }
 
         if (board.isWinningMove(x, y, sign)) {
-            winner = true;
+            isWinner = true;
             addScore();
         }
-
     }
 
     private boolean isValidInput(String input) {

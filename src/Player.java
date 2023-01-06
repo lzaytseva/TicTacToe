@@ -1,12 +1,15 @@
 abstract class Player {
     protected int score;
     protected char sign;
-
-    protected boolean winner;
+    protected boolean isWinner;
 
     public Player() {
         this.score = 0;
-        this.winner = false;
+        this.isWinner = false;
+    }
+
+    public char getSign() {
+        return sign;
     }
 
     void setSign(char sign) {
@@ -14,19 +17,22 @@ abstract class Player {
     }
 
     boolean isWinner() {
-        return winner;
+        return isWinner;
     }
 
     int getScore() {
         return score;
     }
+
     void addScore() {
         score++;
     }
 
     void resetWinnerStatus() {
-        winner = false;
+        isWinner = false;
     }
-    abstract void makeMove(Board board);
 
+    abstract String getClassName();
+
+    abstract void makeMove(Board board);
 }

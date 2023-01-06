@@ -1,8 +1,5 @@
 public interface Signs {
-    char SIGN_X = 'X';
-    char SIGN_O = 'O';
-    char SIGN_EMPTY = '*';
+    char X = 'X';
+    char O = 'O';
+    char EMPTY = '*';
 }
-
-//TODO:
-// переделать на enum

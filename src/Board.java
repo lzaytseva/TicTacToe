@@ -7,7 +7,7 @@ public class Board {
     Board(int size) {
         board = new char[size][size];
         for (char[] row: board) {
-            Arrays.fill(row, Signs.SIGN_EMPTY);
+            Arrays.fill(row, Signs.EMPTY);
         }
         winningSequenceLength = Math.min(size, TicTacToe.MAX_SEQUENCE);
     }
@@ -25,34 +25,33 @@ public class Board {
             }
             builder.append("\n");
         }
+        
         return builder.toString();
     }
 
     boolean isFull() {
         for (char[] row: board) {
             for (char ch: row) {
-                if (ch == Signs.SIGN_EMPTY) {
+                if (ch == Signs.EMPTY) {
                     return false;
                 }
             }
         }
+        
         return true;
     }
     boolean isAvailableCell(int x, int y) {
-        return board[x][y] == Signs.SIGN_EMPTY;
+        return board[x][y] == Signs.EMPTY;
     }
     void changeCellState(int x, int y, char sign) {
         board[x][y] = sign;
     }
-
     boolean isValidCell(int x, int y) {
         return (x >= 0 && x < board.length) && (y >= 0 && y < board.length);
     }
-
     boolean isWinningMove(int x, int y, char sign) {
         return isCompletedHorizontal(x, y, sign) || isCompletedVertical(x, y, sign) || isCompletedDiagonal(x, y, sign);
     }
-
     boolean isCompletedHorizontal(int x, int y, char sign) {
         int seqLength = board[x][y] == sign ? 1 : 0;
         int dy = y - 1;
@@ -76,7 +75,7 @@ public class Board {
                 break;
             }
         }
-
+        
         return seqLength == winningSequenceLength;
     }
 
@@ -103,11 +102,10 @@ public class Board {
                 break;
             }
         }
-
+        
         return seqLength == winningSequenceLength;
     }
     boolean isCompletedDiagonal(int x, int y, char sign) {
-        //проверяем побочную диагональ
         return isCompletedMainDiagonal(x, y, sign) || isCompletedAntidiagonal(x, y, sign);
     }
 
@@ -138,6 +136,7 @@ public class Board {
                 break;
             }
         }
+        
         return seqLength == winningSequenceLength;
     }
 
@@ -168,7 +167,7 @@ public class Board {
                 break;
             }
         }
-
+        
         return seqLength == winningSequenceLength;
     }
 
