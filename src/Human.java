@@ -17,8 +17,9 @@ public class Human extends Player{
         while (true) {
             String input = scanner.nextLine();
             if (isValidInput(input)) {
-                x = Integer.parseInt(input.substring(0, 1));
-                y = Integer.parseInt(input.substring(2));
+                String[] coord = input.split(" ");
+                x = Integer.parseInt(coord[0]);
+                y = Integer.parseInt(coord[1]);
                 if (board.isValidCell(x, y)) {
                     if (board.isAvailableCell(x, y)) {
                         board.changeCellState(x, y, sign);
@@ -41,6 +42,6 @@ public class Human extends Player{
     }
 
     private boolean isValidInput(String input) {
-        return input.matches("\\d \\d");
+        return input.matches("\\d{1,2} \\d{1,2}");
     }
 }
