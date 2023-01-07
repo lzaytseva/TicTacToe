@@ -18,12 +18,29 @@ public class Board {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        for (char[] row: board) {
-            for (char ch: row) {
-                builder.append(ch).append(" ");
+        StringBuilder builder = new StringBuilder("    | ");
+        for (int i = 0; i < board.length; i++) {
+            if (i >= 10) {
+                builder.append(i).append("|").append(" ");
+            } else {
+                builder.append(i).append(" ").append("|").append(" ");
+            }
+        }
+        builder.append("\n");
+        builder.append("_ ".repeat(board.length * 2 + 3)).append("\n");
+        for (int i = 0; i < board.length; i++) {
+            if (i >= 10) {
+                builder.append("[").append(i).append("]").append("|").append(" ");
+            } else {
+                builder.append("[").append(i).append("]").append(" ").append("|").append(" ");
+            }
+            for (int j = 0; j < board.length; j++) {
+                builder.append(board[i][j]).append(" ").append("|").append(" ");
             }
             builder.append("\n");
+            if (i != board.length - 1) {
+                builder.append("_ ".repeat(board.length * 2 + 3)).append("\n");
+            }
         }
         
         return builder.toString();
@@ -128,7 +145,7 @@ public class Board {
         dx = x + 1;
 
         while((dy < board.length && dx < board.length) && seqLength < winningSequenceLength) {
-            if (board[x][dy] == sign) {
+            if (board[dx][dy] == sign) {
                 seqLength++;
                 dy++;
                 dx++;

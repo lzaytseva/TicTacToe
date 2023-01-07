@@ -92,11 +92,11 @@ public class TicTacToe {
 
         while (true) {
             sign = scanner.nextLine();
-            if (sign.equals("0") || sign.equalsIgnoreCase("o")) {
+            if (sign.equals("0") || sign.equalsIgnoreCase("o") || sign.equalsIgnoreCase("о")) {
                 human.setSign(Signs.O);
                 computer.setSign(Signs.X);
                 break;
-            } else if (sign.equalsIgnoreCase("x")) {
+            } else if (sign.equalsIgnoreCase("x") || sign.equalsIgnoreCase("х")) {
                  human.setSign(Signs.X);
                  computer.setSign(Signs.O);
                  break;
