@@ -4,11 +4,6 @@ public class Human extends Player{
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
-    String getClassName() {
-        return "Human";
-    }
-
-    @Override
     void makeMove(Board board) {
         int x, y;
 

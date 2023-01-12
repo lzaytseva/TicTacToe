@@ -2,11 +2,6 @@ public class Computer extends Player {
     MinimaxAlfaBeta minimaxAlfaBeta;
 
     @Override
-    String getClassName() {
-        return "Computer";
-    }
-
-    @Override
     void makeMove(Board board) {
         int[] move;
 

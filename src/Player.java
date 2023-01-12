@@ -32,7 +32,5 @@ abstract class Player {
         isWinner = false;
     }
 
-    abstract String getClassName();
-
     abstract void makeMove(Board board);
 }

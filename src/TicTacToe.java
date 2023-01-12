@@ -133,7 +133,7 @@ public class TicTacToe {
 
     private void checkWin(Player player) {
         if (player.isWinner()) {
-            if (player.getClassName().equals("Human")) {
+            if (player instanceof Human) {
                 System.out.println("Вы выиграли");
             } else {
                 System.out.println("Компьютер выиграл :(");
