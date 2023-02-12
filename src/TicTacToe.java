@@ -141,6 +141,7 @@ public class TicTacToe {
             gameOver = true;
         } else if (board.isFull()) {
             System.out.println("Ничья");
+            gameOver = true;
         }
     }
 
